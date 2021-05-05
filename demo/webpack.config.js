@@ -8,6 +8,11 @@ module.exports = {
     path: path.resolve(__dirname, 'build')
   },
   module: {
-    rules: []
+    rules: [
+      {
+        test: /\.js$/,
+        use: 'babel-loader',
+      }
+    ]
   }
 }
