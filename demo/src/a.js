@@ -2,6 +2,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+import App from './App'
+
 const e = React.createElement;
 
 class LikeButton extends React.Component {
@@ -29,4 +31,4 @@ class LikeButton extends React.Component {
 const domContainer = document.querySelector('#root');
 // ReactDOM.render(e(LikeButton), domContainer);
 
-ReactDOM.render(<LikeButton />, domContainer)
+ReactDOM.render(<App />, domContainer)
