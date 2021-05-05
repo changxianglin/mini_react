@@ -22,10 +22,13 @@ function createTextVDom(text) {
 
 function render(vDom, container) {
   let dom
-  if (vDom.type === 'a') {
-    dom = document.createTextNode(vDom.props.nodeValue)
-  } else {
+
+  dom = document.createElement(vDom.type)
+
+  if (typeof (vDom.props.children) === 'string') {
     dom = document.createElement(vDom.type)
+    const text = document.createTextNode(vDom.props.children)
+    dom.appendChild(text)
   }
 
   if (vDom.props) {
@@ -36,8 +39,8 @@ function render(vDom, container) {
     })
   }
   
-  if (vDom.props && vDom.props.children && vDom.props.children.length) {
-    vDom.props.children.forEach(child => render(child, dom))
+  if (vDom.props && vDom.props.children && typeof(vDom.props.children) != 'string') {
+    render(vDom.props.children, dom)
   }
 
   container.appendChild(dom)

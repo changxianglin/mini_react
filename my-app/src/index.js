@@ -30,11 +30,15 @@ const ReactDOM = React
 //   )
 // }
 
-const jsx3 = (
-  <div id="app2">百度</div>
+// const jsx3 = (
+//   <div id="app2">百度</div>
+// )
+
+const App = (
+  <div id="app2"><span><a href="http://www.baidu.com">百度</a></span></div>
 )
 
 ReactDOM.render(
-  jsx3,
+  App,
   document.getElementById('root')
 );
