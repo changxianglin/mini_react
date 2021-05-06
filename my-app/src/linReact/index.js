@@ -47,5 +47,7 @@ function render(vDom, container) {
 }
 
 export default {
+  createElement,
+  createTextVDom,
   render,
 }

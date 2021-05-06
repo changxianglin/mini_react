@@ -35,7 +35,7 @@ const ReactDOM = React
 // )
 
 const App = (
-  <div id="app2"><span><a href="http://www.baidu.com">百度</a></span></div>
+  <div id="app2"><a href="http://www.baidu.com">百度</a></div>
 )
 
 ReactDOM.render(
