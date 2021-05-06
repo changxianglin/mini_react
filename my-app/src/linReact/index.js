@@ -46,6 +46,68 @@ function render(vDom, container) {
   container.appendChild(dom)
 }
 
+// fiber 架构
+// requestIdleCallback
+
+function workLoop(deadline) {
+  while (nextUnitOfWork && deadline.timeRemaining() > 1) {
+    nextUnitOfWork = performUnitOfWork(nextUnitOfWork)
+  }
+
+  // 空闲注册下一次任务
+  requestIdleCallback(workLoop)
+}
+
+// 运行任务的函数, 参数是当前的 fiber 任务
+function performUnitOfWork(fiber) {
+  if (!fiber.dom) {
+    fiber.dom = createDom(fiber)
+  }
+
+  if (fiber.return) {
+    fiber.return.dom.appendChild(fiber.dom)
+  }
+
+  const elements = fiber.children
+  let prevSibling = null
+
+  if (elements && elements.length) {
+    for (let i = 0; i < elements.length; i++) {
+      const element = elements[i]
+      const newFiber = {
+        type: element.type,
+        props: element.props,
+        return: fiber,
+        dom: null,
+      }
+
+      if (i === 0) {
+        fiber.child = newFiber
+      } else {
+        prevSibling.sibling = newFiber
+      }
+
+      prevSibling = newFiber
+    }
+  }
+
+  // 深度优先
+  if (fiber.child) {
+    return fiber.child
+  }
+
+  let nextFiber = fiber
+  while (nextFiber) {
+    if (nextFiber.sibling) {
+      return nextFiber.sibling
+    }
+    nextFiber = nextFiber.return
+  }
+}
+
+requestIdleCallback(workLoop) 
+
+
 export default {
   createElement,
   createTextVDom,
