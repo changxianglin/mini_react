@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 class Unit {
   constructor(element) {
     this.currentElement = element
@@ -20,7 +22,10 @@ class ReactNativeUnit extends Unit {
     let contentStr
 
     for (const propName in props) {
-      if (propName === 'children') {
+      if (/on[A-Z]/.test(propName)) {
+        const eventType = propName.slice(2).toLowerCase()
+        $(document).on(eventType, `[data-reactid="${rootId}"]`, props[propName])
+      } else if (propName === 'children') {
         contentStr = props[propName].map((child, index) => {
           const childInstance = createReactUnit(child)
           return childInstance.getMarkUp(`${rootId}.${index}`)
