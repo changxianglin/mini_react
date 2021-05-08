@@ -39,12 +39,28 @@ class ReactNativeUnit extends Unit {
   }
 }
 
+class ReactCompositUnit extends Unit {
+  getMarkUp(rootId) {
+    this._rootId = rootId
+    const { type: Component, props } = this.currentElement
+    const componentInstance = new Component(props)
+    const reactComponentRenderer = componentInstance.render()
+    // 递归渲染组件
+    const reactComponentUnitInstance = createReactUnit(reactComponentRenderer)
+    const markup = reactComponentUnitInstance.getMarkUp(rootId)
+    return markup
+  }
+}
+
 function createReactUnit(element) {
   if (typeof element === 'string' || typeof element === 'number') {
     return new ReactTextUnit(element)
   }
   if (typeof element === 'object' && typeof element.type === 'string') {
     return new ReactNativeUnit(element)
+  }
+  if (typeof element === 'object' && typeof element.type === 'function') {
+    return new ReactCompositUnit(element)
   }
 }
 

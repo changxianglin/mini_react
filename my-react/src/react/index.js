@@ -1,11 +1,13 @@
 import $ from 'jquery'
 import createReactUnit from './util'
 import createElement from './element'
+import Component from './component'
 
 let React = {
   render,
   nextRootIndex: 0,
   createElement,
+  Component,
 }
 
 
