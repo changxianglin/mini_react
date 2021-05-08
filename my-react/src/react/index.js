@@ -15,6 +15,7 @@ function render(element, container) {
   const createReactUnitInstance = createReactUnit(element)
   const markUp = createReactUnitInstance.getMarkUp(React.nextRootIndex)
   $(container).html(markUp)
+  $(document).trigger('mounted')
 }
 
 
