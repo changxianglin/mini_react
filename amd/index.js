@@ -3,6 +3,7 @@ let factories = {}
 
 // 名字, 依赖, 工厂
 function define(moduleName, dependencies, factory) {
+  factory.dependencies = dependencies // 挂依赖
   factories[moduleName] = factory
 }
 
@@ -10,7 +11,11 @@ function require(mods, callback) {
   let result = mods.map(function (mod) {
     let factory = factories[mod]
     let exports
-    exports = factory()
+    let dependencies = factory.dependencies // ['name']
+    require(dependencies, function() {
+      exports = factory.apply(null, arguments)
+    })
+    
     return exports
   })
 
@@ -22,10 +27,10 @@ define('name', [], function () {
   return 'lin'
 })
 
-define('age', [], function () {
-  return 22
+define('age', ['name'], function (name) {
+  return name +  22
 })
 
-require(['name', 'age'], function (name, age) {
-  console.log(name, age)
+require(['age'], function (age) {
+  console.log(age)
 })
