@@ -1,1 +1,1 @@
-module.expost = 'today is good day.'
+module.exports = 'today is beauty day.'
