@@ -1,0 +1,1 @@
+module.expost = 'today is good day.'

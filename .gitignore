@@ -5,6 +5,7 @@
 /React_helloworld/node_modules
 /demo/node_modules
 /my-react/node_modules
+/amd/pack/node_modules
 /.pnp
 .pnp.js
 
