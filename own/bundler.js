@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 const babylon = require('babylon')
 const traverse = require('babel-traverse').default
 
@@ -28,6 +29,30 @@ function createAsset(filename) {
   }
 }
 
-const mainAsset = createAsset('./example/entry.js')
+function createGraph(entry) {
+  const mainAsset = createAsset(entry)
+  
+  const queue = [mainAsset]
 
-console.log(mainAsset)
+  for (const asset of queue) {
+    const dirname = path.dirname(asset.filename)
+
+    asset.mapping = {}
+
+    asset.dependencies.forEach(relativePath => {
+      const absolutePath = path.join(dirname, relativePath)
+
+      const child = createAsset(absolutePath)
+
+      asset.mapping[relativePath] = child.id
+
+      queue.push(child)
+    })
+  }
+
+  return queue
+}
+
+const graph = createGraph('./example/entry.js')
+
+console.log(graph)
