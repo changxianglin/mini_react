@@ -6,6 +6,7 @@
 /demo/node_modules
 /my-react/node_modules
 /amd/pack/node_modules
+/own/node_modules
 /.pnp
 .pnp.js
 
